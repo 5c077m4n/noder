@@ -1,5 +1,11 @@
+#[macro_use]
+extern crate lazy_static;
+
 mod lib;
 
-fn main() {
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Hello, world!");
+
+    Ok(())
 }
