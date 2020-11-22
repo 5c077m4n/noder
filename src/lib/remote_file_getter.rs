@@ -1,6 +1,7 @@
-use tokio::fs;
+use tokio::{fs, io};
 
 use super::consts::{NODE_VERSION_INDEX_URL, NODE_DIST_URL, TMP_DIR_PATH};
+use super::types::GeneralError;
 
 lazy_static! {
     static ref HTTP_CLIENT: reqwest::Client = reqwest::Client::new();
@@ -18,7 +19,7 @@ pub async fn get_dist_index() -> reqwest::Result<serde_json::Value> {
     Ok(json_response)
 }
 
-pub async fn save_remote_file(version: &str, os_code: &str, arch: &str, ext: &str) -> reqwest::Result<String> {
+pub async fn save_remote_file(version: &str, os_code: &str, arch: &str, ext: &str) -> Result<String, GeneralError> {
     let filename = format!(
         "node-{version}-{os_code}-{arch}{ext}",
         version = version,
@@ -40,11 +41,14 @@ pub async fn save_remote_file(version: &str, os_code: &str, arch: &str, ext: &st
     let package = package
         .bytes()
         .await?;
+    let mut package = package.as_ref();
 
-    if !fs::metadata(TMP_DIR_PATH).await?.is_ok() {
-        fs::create_dir_all(TMP_DIR_PATH).await?;
+    if !fs::metadata(TMP_DIR_PATH.to_owned()).await?.is_dir() {
+        fs::create_dir_all(TMP_DIR_PATH.to_owned()).await?;
     }
-    fs::copy(&package, TMP_DIR_PATH.join(&filename)).await?;
+
+    let mut file = fs::File::create(TMP_DIR_PATH.join(&filename)).await?;
+    let _ = io::copy(&mut package, &mut file);
 
     Ok(filename)
 }

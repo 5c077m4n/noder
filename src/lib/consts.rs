@@ -5,9 +5,5 @@ pub const NODE_DIST_URL: &str = "https://nodejs.org/dist/";
 
 pub const TMP_DIR_NAME: &str = ".noder";
 lazy_static! {
-    [pub] static ref TMP_DIR_PATH: PathBuf = {
-        let mut tmp_dir_path = temp_dir();
-        tmp_dir_path.push(TMP_DIR_NAME);
-        tmp_dir_path
-    }
+    pub static ref TMP_DIR_PATH: PathBuf = temp_dir().join(TMP_DIR_PATH.to_owned());
 }
