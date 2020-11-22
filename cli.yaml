@@ -19,3 +19,5 @@ subcommands:
       about: Remove selected version
   - prune:
       about: Remove all unused versions
+  - update:
+      about: Update the current installed and used version

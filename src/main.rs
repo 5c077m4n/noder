@@ -11,7 +11,6 @@ use clap::App;
 async fn main() -> Result<(), lib::types::GeneralError> {
     let cli_config = load_yaml!("../cli.yaml");
     let cli_config = App::from_yaml(cli_config).get_matches();
-    // println!("{:?}", cli_config);
 
     let version_index = lib::remote_file_getter::get_dist_index().await?;
     println!("{:#?}", version_index);
