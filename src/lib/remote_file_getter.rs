@@ -1,29 +1,13 @@
-use reqwest;
-use serde::{Deserialize, Serialize};
+use serde_json::Value;
 
-use crate::lib::consts::NODE_VERSION_INDEX_URL;
+use super::consts::{NODE_VERSION_INDEX_URL, NODE_DIST_URL};
 
 lazy_static! {
     static ref HTTP_CLIENT: reqwest::Client = reqwest::Client::new();
 }
 
-#[derive(Deserialize, Serialize)]
-pub struct VersionData {
-    pub date: String,
-    pub files: Vec<String>,
-    pub lts: bool,
-    pub modules: String,
-    pub npm: String,
-    pub openssl: String,
-    pub security: bool,
-    pub uv: String,
-    pub v8: String,
-    pub version: String,
-    pub zlib: String,
-}
-
-pub async fn get_dist_index() -> reqwest::Result<Vec<VersionData>> {
-    let json_response: Vec<VersionData> = HTTP_CLIENT.get(NODE_VERSION_INDEX_URL)
+pub async fn get_dist_index() -> reqwest::Result<Value> {
+    let json_response: Value = HTTP_CLIENT.get(NODE_VERSION_INDEX_URL)
         .send()
         .await?
         .json()
@@ -31,4 +15,13 @@ pub async fn get_dist_index() -> reqwest::Result<Vec<VersionData>> {
 
     Ok(json_response)
 }
-pub async fn get_remote_file(version: &str) {}
+pub async fn get_remote_file(version: &str, os_code: &str, arch: &str, ext: &str) {
+    let url = format!(
+        "{dist_url}{version}/node-{version}-{os_code}-{arch}.tar.{ext}",
+        dist_url = NODE_DIST_URL,
+        version = version,
+        os_code = os_code,
+        arch = arch,
+        ext = ext,
+    );
+}

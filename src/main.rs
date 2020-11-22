@@ -1,13 +1,12 @@
 #[macro_use]
 extern crate lazy_static;
-#[macro_use]
-extern crate serde;
 
 mod lib;
 
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    println!("Hello, world!");
+async fn main() -> Result<(), lib::types::GeneralError> {
+    let version_index = lib::remote_file_getter::get_dist_index().await?;
+    println!("{:?}", version_index);
 
     Ok(())
 }
