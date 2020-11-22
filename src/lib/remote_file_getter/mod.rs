@@ -3,6 +3,8 @@ use tokio::{fs, io};
 use super::consts::{NODE_VERSION_INDEX_URL, NODE_DIST_URL, TMP_DIR_PATH};
 use super::types::GeneralError;
 
+#[cfg(test)] mod tests;
+
 lazy_static! {
     static ref HTTP_CLIENT: reqwest::Client = reqwest::Client::new();
 }
@@ -37,7 +39,6 @@ pub async fn save_remote_file(version: &str, os_code: &str, arch: &str, ext: &st
     let package = HTTP_CLIENT.get(&url)
         .send()
         .await?;
-    assert!(package.status().is_success());
     let package = package
         .bytes()
         .await?;
@@ -47,8 +48,9 @@ pub async fn save_remote_file(version: &str, os_code: &str, arch: &str, ext: &st
         fs::create_dir_all(TMP_DIR_PATH.to_owned()).await?;
     }
 
-    let mut file = fs::File::create(TMP_DIR_PATH.join(&filename)).await?;
+    let filepath = TMP_DIR_PATH.join(&filename);
+    let mut file = fs::File::create(&filepath).await?;
     let _ = io::copy(&mut package, &mut file);
 
-    Ok(filename)
+    Ok(filepath.to_str().unwrap().to_string())
 }
