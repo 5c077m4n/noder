@@ -1,0 +1,21 @@
+name: noder
+version: "0.0.0"
+author: Roee Shapira <roy.shap1@gmail.com>
+about: A unified node.js version manager
+args:
+  - verbose:
+      short: v
+      long: verbose
+      multiple: true
+      help: Sets the level of verbosity
+subcommands:
+  - latest:
+      about: Get the latest version
+  - lts:
+      about: Get the latest long term support version
+  - list:
+      about: List all versions
+  - remove:
+      about: Remove selected version
+  - prune:
+      about: Remove all unused versions
