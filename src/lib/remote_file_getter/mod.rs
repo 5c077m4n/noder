@@ -44,7 +44,7 @@ pub async fn save_remote_file(version: &str, os_code: &str, arch: &str, ext: &st
         .await?;
     let mut package = package.as_ref();
 
-    if !fs::metadata(TMP_DIR_PATH.to_owned()).await?.is_dir() {
+    if !fs::metadata(TMP_DIR_PATH.to_owned()).await.is_ok() {
         fs::create_dir_all(TMP_DIR_PATH.to_owned()).await?;
     }
 
