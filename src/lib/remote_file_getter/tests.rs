@@ -7,7 +7,7 @@ async fn test_get_dist_index() -> Result<(), types::GeneralError> {
     let json = get_dist_index().await?;
     match json {
         serde_json::Value::Array(_) => assert!(true),
-        _ => assert!(false)
+        _ => assert!(false),
     }
 
     Ok(())
