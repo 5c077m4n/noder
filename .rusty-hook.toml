@@ -1,6 +1,3 @@
 [hooks]
 pre-commit = "cargo make format && cargo make clippy"
 pre-push = "cargo test"
-
-[logging]
-verbose = true

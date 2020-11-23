@@ -3,6 +3,7 @@ use url::Url;
 
 use super::consts::{NODE_DIST_URL, NODE_VERSION_INDEX_URL, TMP_DIR_PATH};
 use super::types::GeneralError;
+use super::utils::os::get_os_node_file_name;
 
 #[cfg(test)]
 mod tests;
@@ -19,24 +20,13 @@ pub async fn get_dist_index() -> reqwest::Result<serde_json::Value> {
     Ok(json_response)
 }
 
-pub async fn save_remote_file(
-    version: &str,
-    os_code: &str,
-    arch: &str,
-    ext: &str,
-) -> Result<String, GeneralError> {
-    let filename = format!(
-        "node-{version}-{os_code}-{arch}{ext}",
-        version = version,
-        os_code = os_code,
-        arch = arch,
-        ext = ext,
-    );
+pub async fn save_remote_file(version: &str) -> Result<String, GeneralError> {
+    let filename = get_os_node_file_name(version);
     let url = format!(
         "{dist_url}{version}/{filename}",
         dist_url = NODE_DIST_URL,
         version = version,
-        filename = filename,
+        filename = filename.as_ref().unwrap(),
     );
     assert!(Url::parse(&url).is_ok());
 
@@ -48,7 +38,7 @@ pub async fn save_remote_file(
         fs::create_dir_all(TMP_DIR_PATH.to_owned()).await?;
     }
 
-    let filepath = TMP_DIR_PATH.join(&filename);
+    let filepath = TMP_DIR_PATH.join(filename.as_ref().unwrap());
     let mut file = fs::File::create(&filepath).await?;
     let _ = io::copy(&mut package, &mut file);
 
