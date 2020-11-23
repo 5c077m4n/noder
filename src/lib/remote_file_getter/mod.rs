@@ -1,4 +1,5 @@
 use tokio::{fs, io};
+use url::Url;
 
 use super::consts::{NODE_DIST_URL, NODE_VERSION_INDEX_URL, TMP_DIR_PATH};
 use super::types::GeneralError;
@@ -37,6 +38,7 @@ pub async fn save_remote_file(
         version = version,
         filename = filename,
     );
+    assert!(Url::parse(&url).is_ok());
 
     let package = HTTP_CLIENT.get(&url).send().await?;
     let package = package.bytes().await?;

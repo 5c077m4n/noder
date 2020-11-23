@@ -21,3 +21,7 @@ log = "0.4.0"
 env_logger = "0.8.2"
 clap = { version ="2.33", features = ["yaml"] }
 dialoguer = "0.7.1"
+url = "2.2"
+
+[dev-dependencies]
+rusty-hook = "^0.11"
