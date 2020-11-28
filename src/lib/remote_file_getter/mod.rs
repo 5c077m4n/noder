@@ -3,7 +3,7 @@ use url::Url;
 
 use super::consts::{
     http::HTTP_CLIENT,
-    paths::{NODE_DIST_URL, NODE_VERSION_INDEX_URL, TMP_DIR_PATH}
+    paths::{NODE_DIST_URL, NODE_VERSION_INDEX_URL, TMP_DIR_PATH},
 };
 use super::types::GeneralError;
 use super::utils::os::get_os_node_file_name;

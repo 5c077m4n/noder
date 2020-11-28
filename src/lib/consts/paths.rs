@@ -1,5 +1,5 @@
-use std::{env::temp_dir, path::PathBuf};
 use dirs::cache_dir;
+use std::{env::temp_dir, path::PathBuf};
 
 pub const NODE_VERSION_INDEX_URL: &str = "https://nodejs.org/dist/index.json";
 pub const NODE_DIST_URL: &str = "https://nodejs.org/dist/";
