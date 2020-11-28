@@ -1,7 +1,7 @@
-use super::super::types;
+use super::super::types::GeneralError;
 
 #[tokio::test]
-async fn test_get_dist_index() -> Result<(), types::GeneralError> {
+async fn test_get_dist_index() -> Result<(), GeneralError> {
     use super::get_dist_index;
 
     let json = get_dist_index().await?;
@@ -14,7 +14,7 @@ async fn test_get_dist_index() -> Result<(), types::GeneralError> {
 }
 
 #[tokio::test]
-async fn test_save_remote_file() -> Result<(), types::GeneralError> {
+async fn test_save_remote_file() -> Result<(), GeneralError> {
     use super::save_remote_file;
 
     let new_file_name = save_remote_file("v14.15.1").await?;

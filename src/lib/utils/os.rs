@@ -16,15 +16,10 @@ pub fn get_os_arch() -> Option<&'static str> {
 }
 
 pub fn get_os_node_file_name(version: &str) -> Option<String> {
-    let os_name = get_os_name();
-    if os_name.is_none() {
-        return None;
-    }
-    let os_arch = get_os_arch();
-    if os_arch.is_none() {
-        return None;
-    }
-    let ext = match os_name.unwrap() {
+    let os_name = get_os_name().unwrap_or_else(|| panic!("Sorry, your OS is not supported"));
+    let os_arch = get_os_arch().unwrap_or_else(|| panic!("Sorry, your OS arch is not supported"));
+
+    let ext = match os_name {
         "linux" | "darwin" => Some(".tar.gz"),
         "win" => Some(".zip"),
         _ => None,
@@ -33,8 +28,8 @@ pub fn get_os_node_file_name(version: &str) -> Option<String> {
     Some(format!(
         "node-{version}-{os_name}-{os_arch}{ext}",
         version = version,
-        os_name = os_name.unwrap(),
-        os_arch = os_arch.unwrap(),
+        os_name = os_name,
+        os_arch = os_arch,
         ext = ext.unwrap(),
     ))
 }
