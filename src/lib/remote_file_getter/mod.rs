@@ -3,7 +3,7 @@ use url::Url;
 
 use super::consts::{
     http::HTTP_CLIENT,
-    paths::{NODE_DIST_URL, NODE_VERSION_INDEX_URL, TMP_DIR_PATH},
+    paths::{NODE_DIST_URL, NODE_VERSION_INDEX_URL, SUMCHECK_FILE_NAME, TMP_DIR_PATH},
 };
 use super::types::GeneralError;
 use super::utils::os::get_os_node_file_name;
@@ -15,6 +15,16 @@ pub async fn get_dist_index() -> reqwest::Result<serde_json::Value> {
     let json_response = HTTP_CLIENT.get(NODE_VERSION_INDEX_URL).send().await?;
     assert!(json_response.status().is_success());
     let json_response: serde_json::Value = json_response.json().await?;
+
+    Ok(json_response)
+}
+
+pub async fn get_sumcheck_file(version: &str) -> reqwest::Result<String> {
+    let hashmap_url = format!("{}/{}/{}", NODE_DIST_URL, version, SUMCHECK_FILE_NAME);
+    
+    let json_response = HTTP_CLIENT.get(&hashmap_url).send().await?;
+    assert!(json_response.status().is_success(), "{}", json_response.status().to_string());
+    let json_response = json_response.text().await?;
 
     Ok(json_response)
 }
