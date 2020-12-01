@@ -1,7 +1,7 @@
 use std::{collections::HashMap, str};
 
+use sha2::{Digest, Sha256};
 use tokio::fs;
-use sha2::{Sha256, Digest};
 
 use super::super::types::GeneralError;
 

@@ -21,9 +21,13 @@ pub async fn get_dist_index() -> reqwest::Result<serde_json::Value> {
 
 pub async fn get_sumcheck_file(version: &str) -> reqwest::Result<String> {
     let hashmap_url = format!("{}/{}/{}", NODE_DIST_URL, version, SUMCHECK_FILE_NAME);
-    
+
     let json_response = HTTP_CLIENT.get(&hashmap_url).send().await?;
-    assert!(json_response.status().is_success(), "{}", json_response.status().to_string());
+    assert!(
+        json_response.status().is_success(),
+        "{}",
+        json_response.status().to_string()
+    );
     let json_response = json_response.text().await?;
 
     Ok(json_response)
@@ -43,7 +47,7 @@ pub async fn save_remote_file(version: &str) -> Result<String, GeneralError> {
     let package = package.bytes().await?;
     let mut package = package.as_ref();
 
-    if !fs::metadata(TMP_DIR_PATH.to_owned()).await.is_ok() {
+    if fs::metadata(TMP_DIR_PATH.to_owned()).await.is_err() {
         fs::create_dir_all(TMP_DIR_PATH.to_owned()).await?;
     }
 
