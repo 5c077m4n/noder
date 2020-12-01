@@ -9,9 +9,8 @@ async fn test_file_sumcheck_generator() -> Result<(), GeneralError> {
 
     assert!(
         !sha256.is_empty(),
-        "The sumcheck for {} is {}.",
-        new_file_name,
-        sha256
+        "The sumcheck for `{}` not supposed to be empty.",
+        new_file_name
     );
     Ok(())
 }
