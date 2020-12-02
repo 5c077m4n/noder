@@ -1,6 +1,5 @@
 use crate::lib::{
-    remote_file_getter::get_sumcheck_file,
-    remote_file_getter::save_remote_file,
+    remote_file_getter::get_sumcheck_file, remote_file_getter::save_remote_file,
     types::GeneralError,
 };
 

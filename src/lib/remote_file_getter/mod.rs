@@ -21,7 +21,11 @@ pub async fn get_dist_index() -> reqwest::Result<serde_json::Value> {
 
 pub async fn get_sumcheck_file(node_version: &str) -> reqwest::Result<String> {
     let hashmap_url = format!("{}/{}/{}", NODE_DIST_URL, node_version, SUMCHECK_FILE_NAME);
-    assert!(Url::parse(&hashmap_url).is_ok(), "({}) is not a valid URL", hashmap_url);
+    assert!(
+        Url::parse(&hashmap_url).is_ok(),
+        "({}) is not a valid URL",
+        hashmap_url
+    );
 
     let json_response = HTTP_CLIENT.get(&hashmap_url).send().await?;
     assert!(
