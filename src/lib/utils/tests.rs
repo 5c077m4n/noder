@@ -1,4 +1,8 @@
-use crate::lib::{remote_file_getter::save_remote_file, types::GeneralError, remote_file_getter::get_sumcheck_file};
+use crate::lib::{
+    remote_file_getter::get_sumcheck_file,
+    remote_file_getter::save_remote_file,
+    types::GeneralError,
+};
 
 use super::hash::{generate_file_sha256, read_sumcheck_to_map};
 
@@ -21,6 +25,5 @@ async fn test_hash_table_read_and_parse() -> Result<(), GeneralError> {
     let hashmap = read_sumcheck_to_map(&hashmap_text).await;
 
     assert!(!hashmap.is_empty());
-
     Ok(())
 }

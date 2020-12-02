@@ -8,14 +8,11 @@ use super::super::types::GeneralError;
 pub async fn read_sumcheck_to_map(sumcheck: &str) -> HashMap<String, String> {
     let mut hashmap: HashMap<String, String> = HashMap::new();
 
-    let sumcheck_lines_parts = sumcheck
-        .lines()
-        .map(|line| {
-            line
-                .split(' ')
-                .filter(|s| !s.is_empty())
-                .collect::<Vec<&str>>()
-        });
+    let sumcheck_lines_parts = sumcheck.lines().map(|line| {
+        line.split(' ')
+            .filter(|s| !s.is_empty())
+            .collect::<Vec<&str>>()
+    });
     for line_parts in sumcheck_lines_parts {
         hashmap.insert(line_parts[1].to_owned(), line_parts[0].to_owned());
     }
