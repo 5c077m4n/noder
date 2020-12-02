@@ -3,9 +3,9 @@ use std::{collections::HashMap, str};
 use sha2::{Digest, Sha256};
 use tokio::fs;
 
-use super::super::types::GeneralError;
+use crate::lib::types::GeneralError;
 
-pub async fn read_sumcheck_to_map(sumcheck: &str) -> HashMap<String, String> {
+pub async fn read_sumcheck_to_map(sumcheck: &str) -> Result<HashMap<String, String>, GeneralError> {
     let mut hashmap: HashMap<String, String> = HashMap::new();
 
     let sumcheck_lines_parts = sumcheck.lines().map(|line| {
@@ -17,7 +17,7 @@ pub async fn read_sumcheck_to_map(sumcheck: &str) -> HashMap<String, String> {
         hashmap.insert(line_parts[1].to_owned(), line_parts[0].to_owned());
     }
 
-    hashmap
+    Ok(hashmap)
 }
 
 pub async fn generate_file_sha256(file_path: &str) -> Result<Vec<u8>, GeneralError> {

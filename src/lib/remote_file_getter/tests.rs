@@ -1,4 +1,4 @@
-use super::super::types::GeneralError;
+use crate::lib::types::GeneralError;
 
 #[tokio::test]
 async fn test_get_dist_index() -> Result<(), GeneralError> {

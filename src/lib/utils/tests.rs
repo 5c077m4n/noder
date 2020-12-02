@@ -21,7 +21,7 @@ async fn test_file_sumcheck_generator() -> Result<(), GeneralError> {
 #[tokio::test]
 async fn test_hash_table_read_and_parse() -> Result<(), GeneralError> {
     let hashmap_text = get_sumcheck_file("v14.15.1").await?;
-    let hashmap = read_sumcheck_to_map(&hashmap_text).await;
+    let hashmap = read_sumcheck_to_map(&hashmap_text).await?;
 
     assert!(!hashmap.is_empty());
     Ok(())
