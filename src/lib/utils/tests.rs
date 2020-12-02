@@ -1,5 +1,5 @@
 use crate::lib::{
-    remote_file_getter::get_sumcheck_file, remote_file_getter::save_remote_file,
+    remote_file_getter::{get_sumcheck_file, save_remote_file},
     types::GeneralError,
 };
 
@@ -12,7 +12,7 @@ async fn test_file_sumcheck_generator() -> Result<(), GeneralError> {
 
     assert!(
         !sha256.is_empty(),
-        "The sumcheck for `{}` not supposed to be empty.",
+        "The sumcheck for `{}` is not supposed to be empty.",
         new_file_name
     );
     Ok(())
